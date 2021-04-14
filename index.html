@@ -13,12 +13,32 @@
     <div class="box-main">
         <div class="box-inner">
             <h1 class="big-title">This is a collection of ideas</h1>
-            <div class="box-ideas" id="boxIdeas">
-            
+
+            <!-- This is filter container -->
+            <div class="box-filter">
+                <div class="form-group">
+                    <label for="formFilter">Filter</label>
+                    <select class="form-control" id="formFilter">
+                        
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="clearFilter">Clear Filter</button>
             </div>
+            <!-- End Filter Container -->
+
+            <!-- This is List ideas -->
+            <div class="box-ideas" id="boxIdeas">
+
+            </div>
+            <!-- End of list ideas -->
+
+            <!-- btn wrapper for add data -->
             <div class="btn-wrapper">
                 <button class="btn btn-primary" id="openFormAdd">Add new Idea</button>
             </div>
+            <!-- end wrapper for ad data -->
+
+            <!-- This is container form input -->
             <div class="box-form">
                 <div class="form-group hidden">
                     <label for="idIdea">Id</label>
@@ -44,6 +64,8 @@
                 <button class="btn btn-primary hidden" id="updateIdea">Update Idea</button>
                 <button class="btn btn-default" id="btnCancel">Cancel</button>
             </div>
+            <!-- End Container form input -->
+            
         </div>
     </div>
 

@@ -5,10 +5,15 @@ setTimeout(editIdea, 2000);
 updateIdea();
 setTimeout(deleteIdea, 2000);
 cancel();
+saveLocalStorage();
+getLocalStorage();
+filter();
+clearFilter();
 
 // This is function for get data
 function getIdea() {
     var $boxIdeas = $('#boxIdeas');
+    var $formFilter = $('#formFilter');
     var $base_url = "https://607599690baf7c0017fa68ac.mockapi.io/api/telkomsel/ideas/";
 
     $.ajax({
@@ -20,6 +25,10 @@ function getIdea() {
                     "<div class='list-idea'><h1 class='title'>" + idea.title + 
                     "</h1><p class='body'>" + idea.body + 
                     "<ul class='action-button'><li class='btn-edit' data-id='" + idea.id + "' data-created-date='" + idea.created_date + "'><i class='far fa-edit'></i></li><li class='btn-delete' data-id='" + idea.id + "'><i class='far fa-trash-alt'></i></li></ul></p><div>");
+
+                $formFilter.append(
+                    "<option value='" + idea.id + "'>" + idea.title + "</option>"
+                );
             });
         },
         error: function() {
@@ -142,6 +151,7 @@ function updateIdea() {
                 $('#updateIdea').addClass('hidden');
                 $boxForm.css("top", "-100%");  
                 $boxInner.css("overflow-y", "auto");  
+                setTimeout(editIdea, 2000);
                 setTimeout(deleteIdea, 2000);
             },
             error: function() {
@@ -164,6 +174,8 @@ function deleteIdea() {
                 alert('succes delete idea');
                 $boxIdeas.empty();
                 getIdea();
+                setTimeout(editIdea, 2000);
+                setTimeout(deleteIdea, 2000);
             },
             error: function() {
                 alert('error update idea');
@@ -199,3 +211,62 @@ function countChar(val) {
         $('#charNum').text(140 - len);
     }
 };
+
+// This is function for save localStorage
+function saveLocalStorage() {
+    $('#title').keyup(function() {
+        var txtVal = this.value;
+        localStorage.setItem('title', txtVal);
+    });
+
+    $('#body').keyup(function() {
+        var txtValBody = this.value;
+        localStorage.setItem('body', txtValBody);
+    });
+}
+
+// This is function for save localStorage
+function getLocalStorage() {
+    if (localStorage.getItem("title") != null) {
+        $('#title').val(localStorage.getItem('title'));
+    }
+
+    if (localStorage.getItem("body") != null) {
+        $('#body').val(localStorage.getItem('body'));
+    }
+}
+
+// This is function filter
+function filter() {
+    $('#formFilter').on('change', function() {
+        var $id = $(this).val();
+        var $boxIdeas = $('#boxIdeas');
+        var $base_url = "https://607599690baf7c0017fa68ac.mockapi.io/api/telkomsel/ideas/";
+        console.log($base_url + $id);
+
+        $.ajax({
+            type: 'GET',
+            url: $base_url + $id,
+            success: function(ideas) {
+                console.log(ideas);
+                $boxIdeas.empty();
+                $boxIdeas.append(
+                    "<div class='list-idea'><h1 class='title'>" + ideas.title + 
+                    "</h1><p class='body'>" + ideas.body + 
+                    "<ul class='action-button'><li class='btn-edit' data-id='" + ideas.id + "' data-created-date='" + ideas.created_date + "'><i class='far fa-edit'></i></li><li class='btn-delete' data-id='" + ideas.id + "'><i class='far fa-trash-alt'></i></li></ul></p><div>");
+            },
+            error: function() {
+                alert('error loading ideas');
+            }
+        });
+    });
+}
+
+// This is function for clear filter
+function clearFilter() {
+    $('#clearFilter').click(function(){
+        var $formFilter = $('#formFilter');
+        $formFilter.empty();
+        getIdea();
+    });
+}
