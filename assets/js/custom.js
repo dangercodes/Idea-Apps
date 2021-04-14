@@ -2,6 +2,7 @@ getIdea();
 addIdea();
 setTimeout(editIdea, 2000);
 updateIdea();
+setTimeout(deleteIdea, 2000);
 
 // This is function for get data
 function getIdea() {
@@ -114,6 +115,27 @@ function updateIdea() {
                 $created_date.addClass('hidden');
                 $('#addIdea').removeClass('hidden');
                 $('#updateIdea').addClass('hidden');
+            },
+            error: function() {
+                alert('error update idea');
+            }
+        });
+    });
+}
+
+// This is function for delete data
+function deleteIdea() {
+    var $boxIdeas = $('#boxIdeas');
+    var $base_url = "https://607599690baf7c0017fa68ac.mockapi.io/api/telkomsel/ideas/";
+    $('.btn-delete').click(function(){
+        var $id = $(this).attr('data-id');
+        $.ajax({
+            type: 'DELETE',
+            url: $base_url + $id,
+            success: function(data) {
+                alert('succes delete idea');
+                $boxIdeas.empty();
+                getIdea();
             },
             error: function() {
                 alert('error update idea');
