@@ -1,5 +1,7 @@
 getIdea();
 addIdea();
+setTimeout(editIdea, 2000);
+updateIdea();
 
 // This is function for get data
 function getIdea() {
@@ -56,6 +58,65 @@ function addIdea() {
             },
             error: function() {
                 alert('error saving idea');
+            }
+        });
+    });
+}
+
+// This is function for edit data
+function editIdea() {
+    var $id = $('#idIdea');
+    var $created_date = $('#created-date');
+    var $title = $('#title');
+    var $body = $('#body');
+
+    $('.btn-edit').click(function(){
+        var getId = $(this).attr("data-id");
+        var getCreatedDate = $(this).attr("data-created-date");
+        var getTitle = $(this).parent().parent().find('.title').text();
+        var getBody = $(this).parent().parent().find('.body').text();
+        $id.removeClass('hidden');
+        $created_date.removeClass('hidden');
+        $id.val(getId);
+        $created_date.val(getCreatedDate);
+        $title.val(getTitle);
+        $body.val(getBody);
+        $('#addIdea').addClass('hidden');
+        $('#updateIdea').removeClass('hidden');
+    });
+}
+
+// This is function for update data
+function updateIdea() {
+    var $boxIdeas = $('#boxIdeas');
+    var $id = $('#idIdea');
+    var $created_date = $('#created-date');
+    var $title = $('#title');
+    var $body = $('#body');
+    var $base_url = "https://607599690baf7c0017fa68ac.mockapi.io/api/telkomsel/ideas/";
+    $('#updateIdea').click(function(){
+        var ideas = {
+            created_date: $created_date.val(),
+            title: $title.val(),
+            body: $body.val()
+        }
+
+        $.ajax({
+            type: 'PUT',
+            url: $base_url + $id.val(),
+            data: ideas,
+            success: function(data) {
+                alert('succes update idea');
+                clearForm();
+                $boxIdeas.empty();
+                getIdea();
+                $id.addClass('hidden');
+                $created_date.addClass('hidden');
+                $('#addIdea').removeClass('hidden');
+                $('#updateIdea').addClass('hidden');
+            },
+            error: function() {
+                alert('error update idea');
             }
         });
     });

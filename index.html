@@ -13,9 +13,12 @@
     <div class="container">
         <h1 class="big-title">This is a collection of ideas</h1>
         <br/>
+        <input type="text" name="id" class="form-control hidden" id="idIdea" readonly>
+        <input type="text" name="created-date" class="form-control hidden" id="created-date" readonly>
         <input type="text" name="title" class="form-control" id="title">
         <textarea name="body" class="form-control" id="body"></textarea>
         <button class="btn btn-primary" id="addIdea">Add new Idea</button>
+        <button class="btn btn-primary hidden" id="updateIdea">Update Idea</button>
         <div class="box-ideas" id="boxIdeas">
             
         </div>
